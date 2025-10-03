@@ -55,9 +55,9 @@ const Sidebar = ({ projects = [], isOpen, onClose }) => {
                 >
                   <div 
                     className="w-3 h-3 rounded-full flex-shrink-0"
-                    style={{ backgroundColor: project.color }}
+style={{ backgroundColor: project.color_c }}
                   />
-                  <span className="truncate">{project.name}</span>
+                  <span className="truncate">{project.name_c || project.Name}</span>
                 </NavLink>
               ))}
             </div>
@@ -131,9 +131,10 @@ const Sidebar = ({ projects = [], isOpen, onClose }) => {
                       )}
                     >
                       <div 
-                        className="w-3 h-3 rounded-full flex-shrink-0"
-                        style={{ backgroundColor: project.color }}
+className="w-3 h-3 rounded-full flex-shrink-0"
+                        style={{ backgroundColor: project.color_c }}
                       />
+                      <span className="truncate">{project.name_c || project.Name}</span>
                       <span className="truncate">{project.name}</span>
                     </NavLink>
                   ))}

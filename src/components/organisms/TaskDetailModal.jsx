@@ -16,22 +16,23 @@ const TaskDetailModal = ({
   onUpdate,
   onDelete 
 }) => {
-  const [isEditing, setIsEditing] = useState(false);
+const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
-    title: task.title,
-    description: task.description,
-    assigneeId: task.assigneeId?.toString() || "",
-    priority: task.priority,
-    dueDate: task.dueDate ? format(new Date(task.dueDate), "yyyy-MM-dd") : ""
+    title_c: task.title_c || task.Name,
+    description_c: task.description_c,
+    assignee_id_c: (task.assignee_id_c?.Id || task.assignee_id_c)?.toString() || "",
+    priority_c: task.priority_c,
+    due_date_c: task.due_date_c ? format(new Date(task.due_date_c), "yyyy-MM-dd") : ""
   });
 
-  const assignee = teamMembers.find(m => m.Id === task.assigneeId);
+const assigneeIdValue = task.assignee_id_c?.Id || task.assignee_id_c;
+  const assignee = teamMembers.find(m => m.Id === assigneeIdValue);
 
-  const assigneeOptions = [
+const assigneeOptions = [
     { value: "", label: "Unassigned" },
     ...teamMembers.map(member => ({
       value: member.Id.toString(),
-      label: member.name
+      label: member.name_c || member.Name
     }))
   ];
 
@@ -41,12 +42,12 @@ const TaskDetailModal = ({
     { value: "high", label: "High" }
   ];
 
-  const handleSubmit = (e) => {
+const handleSubmit = (e) => {
     e.preventDefault();
     onUpdate(task.Id, {
       ...formData,
-      assigneeId: formData.assigneeId ? parseInt(formData.assigneeId) : null,
-      dueDate: formData.dueDate ? new Date(formData.dueDate).toISOString() : null
+      assignee_id_c: formData.assignee_id_c ? parseInt(formData.assignee_id_c) : null,
+      due_date_c: formData.due_date_c ? new Date(formData.due_date_c).toISOString() : null
     });
     setIsEditing(false);
   };
@@ -88,8 +89,8 @@ const TaskDetailModal = ({
                     onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                     className="text-xl font-semibold"
                   />
-                ) : (
-                  <h2 className="text-2xl font-bold text-gray-900">{task.title}</h2>
+) : (
+                  <h2 className="text-2xl font-bold text-gray-900">{task.title_c || task.Name}</h2>
                 )}
               </div>
               <button
@@ -113,7 +114,7 @@ const TaskDetailModal = ({
                   />
                 ) : (
                   <p className="text-gray-600 whitespace-pre-wrap">
-                    {task.description || "No description"}
+{task.description_c || "No description"}
                   </p>
                 )}
               </div>
@@ -130,11 +131,11 @@ const TaskDetailModal = ({
                       options={assigneeOptions}
                     />
                   ) : assignee ? (
-                    <div className="flex items-center gap-3">
-                      <Avatar src={assignee.avatar} alt={assignee.name} size="md" />
+<div className="flex items-center gap-3">
+                      <Avatar src={assignee.avatar_c} alt={assignee.name_c || assignee.Name} size="md" />
                       <div>
-                        <div className="font-medium text-gray-900">{assignee.name}</div>
-                        <div className="text-sm text-gray-500">{assignee.role}</div>
+                        <div className="font-medium text-gray-900">{assignee.name_c || assignee.Name}</div>
+                        <div className="text-sm text-gray-500">{assignee.role_c}</div>
                       </div>
                     </div>
                   ) : (
@@ -153,8 +154,8 @@ const TaskDetailModal = ({
                       options={priorityOptions}
                     />
                   ) : (
-                    <Badge variant={task.priority} className="text-sm">
-                      {task.priority}
+<Badge variant={task.priority_c} className="text-sm">
+                      {task.priority_c}
                     </Badge>
                   )}
                 </div>
@@ -171,8 +172,8 @@ const TaskDetailModal = ({
                     />
                   ) : task.dueDate ? (
                     <div className="flex items-center gap-2 text-gray-600">
-                      <ApperIcon name="Calendar" className="w-4 h-4" />
-                      <span>{format(new Date(task.dueDate), "MMMM d, yyyy")}</span>
+<ApperIcon name="Calendar" className="w-4 h-4" />
+                      <span>{format(new Date(task.due_date_c), "MMMM d, yyyy")}</span>
                     </div>
                   ) : (
                     <p className="text-gray-500">No due date</p>
@@ -184,8 +185,8 @@ const TaskDetailModal = ({
                     Created
                   </label>
                   <div className="flex items-center gap-2 text-gray-600">
-                    <ApperIcon name="Clock" className="w-4 h-4" />
-                    <span>{format(new Date(task.createdAt), "MMM d, yyyy")}</span>
+<ApperIcon name="Clock" className="w-4 h-4" />
+                    <span>{format(new Date(task.created_at_c || task.CreatedOn), "MMM d, yyyy")}</span>
                   </div>
                 </div>
               </div>
@@ -207,13 +208,13 @@ const TaskDetailModal = ({
                         type="button"
                         variant="outline"
                         onClick={() => {
-                          setIsEditing(false);
+setIsEditing(false);
                           setFormData({
-                            title: task.title,
-                            description: task.description,
-                            assigneeId: task.assigneeId?.toString() || "",
-                            priority: task.priority,
-                            dueDate: task.dueDate ? format(new Date(task.dueDate), "yyyy-MM-dd") : ""
+                            title_c: task.title_c || task.Name,
+                            description_c: task.description_c,
+                            assignee_id_c: (task.assignee_id_c?.Id || task.assignee_id_c)?.toString() || "",
+                            priority_c: task.priority_c,
+                            due_date_c: task.due_date_c ? format(new Date(task.due_date_c), "yyyy-MM-dd") : ""
                           });
                         }}
                       >

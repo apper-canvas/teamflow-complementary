@@ -52,19 +52,22 @@ const Dashboard = () => {
     );
   }
 
-  const getProjectTasks = (projectId) => {
-    return tasks.filter(task => task.projectId === projectId);
+const getProjectTasks = (projectId) => {
+    return tasks.filter(task => {
+      const projectIdValue = task.project_id_c?.Id || task.project_id_c;
+      return projectIdValue === projectId;
+    });
   };
 
   const totalTasks = tasks.length;
   const completedTasks = tasks.filter(task => {
-    const column = task.columnId;
-    return column === 4 || column === 8 || column === 11 || column === 14;
+    const columnId = task.column_id_c?.Id || task.column_id_c;
+    return columnId === 4 || columnId === 8 || columnId === 11 || columnId === 14;
   }).length;
 
-  const highPriorityTasks = tasks.filter(task => task.priority === "high").length;
+  const highPriorityTasks = tasks.filter(task => task.priority_c === "high").length;
   const overdueTasks = tasks.filter(task => {
-    return task.dueDate && new Date(task.dueDate) < new Date();
+    return task.due_date_c && new Date(task.due_date_c) < new Date();
   }).length;
 
   const stats = [

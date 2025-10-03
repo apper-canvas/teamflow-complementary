@@ -16,11 +16,11 @@ const FilterBar = ({
     { value: "low", label: "Low" }
   ];
 
-  const assigneeOptions = [
+const assigneeOptions = [
     { value: "", label: "All Team Members" },
     ...teamMembers.map(member => ({
       value: member.Id.toString(),
-      label: member.name
+      label: member.name_c || member.Name
     }))
   ];
 

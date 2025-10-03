@@ -52,19 +52,19 @@ const ProjectBoard = () => {
     loadData();
   }, [projectId]);
 
-  const handleTaskMove = async (taskId, newColumnId) => {
+const handleTaskMove = async (taskId, newColumnId) => {
     const taskIndex = tasks.findIndex(t => t.Id === taskId);
-    const oldColumnId = tasks[taskIndex].columnId;
+    const oldColumnId = tasks[taskIndex].column_id_c;
     
     const updatedTasks = [...tasks];
-    updatedTasks[taskIndex] = { ...updatedTasks[taskIndex], columnId: newColumnId };
+    updatedTasks[taskIndex] = { ...updatedTasks[taskIndex], column_id_c: newColumnId };
     setTasks(updatedTasks);
 
     try {
       await taskService.moveTask(taskId, newColumnId);
       toast.success("Task moved successfully");
     } catch (err) {
-      updatedTasks[taskIndex] = { ...updatedTasks[taskIndex], columnId: oldColumnId };
+      updatedTasks[taskIndex] = { ...updatedTasks[taskIndex], column_id_c: oldColumnId };
       setTasks(updatedTasks);
       toast.error("Failed to move task");
     }
@@ -74,8 +74,8 @@ const ProjectBoard = () => {
     try {
       const newTask = await taskService.create({
         ...taskData,
-        projectId: parseInt(projectId),
-        description: ""
+        project_id_c: parseInt(projectId),
+        description_c: ""
       });
       setTasks([...tasks, newTask]);
       toast.success("Task created successfully");
@@ -112,9 +112,12 @@ const ProjectBoard = () => {
     setFilters({ priority: "", assigneeId: "" });
   };
 
-  const filteredTasks = tasks.filter(task => {
-    if (filters.priority && task.priority !== filters.priority) return false;
-    if (filters.assigneeId && task.assigneeId?.toString() !== filters.assigneeId) return false;
+const filteredTasks = tasks.filter(task => {
+    if (filters.priority && task.priority_c !== filters.priority) return false;
+    if (filters.assigneeId) {
+      const assigneeIdValue = task.assignee_id_c?.Id || task.assignee_id_c;
+      if (assigneeIdValue?.toString() !== filters.assigneeId) return false;
+    }
     return true;
   });
 
@@ -129,11 +132,11 @@ const ProjectBoard = () => {
           <div>
             <div className="flex items-center gap-3 mb-2">
               <div 
-                className="w-4 h-4 rounded-full"
-                style={{ backgroundColor: project.color }}
+className="w-4 h-4 rounded-full"
+                style={{ backgroundColor: project.color_c }}
               />
               <h1 className="text-3xl font-bold text-gray-900">
-                {project.name}
+                {project.name_c || project.Name}
               </h1>
             </div>
             <p className="text-gray-600">{project.description}</p>

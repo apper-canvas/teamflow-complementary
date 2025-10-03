@@ -9,15 +9,17 @@ import Avatar from "@/components/atoms/Avatar";
 const ProjectCard = ({ project, tasks = [], teamMembers = [] }) => {
   const navigate = useNavigate();
 
-  const completedTasks = tasks.filter(task => {
-    const column = task.columnId;
-    return column === 4 || column === 8 || column === 11 || column === 14;
+const completedTasks = tasks.filter(task => {
+    const columnId = task.column_id_c?.Id || task.column_id_c;
+    return columnId === 4 || columnId === 8 || columnId === 11 || columnId === 14;
   }).length;
 
   const totalTasks = tasks.length;
   const progress = totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0;
 
-  const assignedMembers = Array.from(new Set(tasks.map(t => t.assigneeId)))
+const assignedMembers = Array.from(new Set(tasks.map(t => {
+    return t.assignee_id_c?.Id || t.assignee_id_c;
+  })))
     .map(id => teamMembers.find(m => m.Id === id))
     .filter(Boolean)
     .slice(0, 3);
@@ -40,11 +42,11 @@ const ProjectCard = ({ project, tasks = [], teamMembers = [] }) => {
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-center gap-3">
             <div 
-              className="w-3 h-3 rounded-full"
-              style={{ backgroundColor: project.color }}
+className="w-3 h-3 rounded-full"
+              style={{ backgroundColor: project.color_c }}
             />
             <h3 className="text-lg font-semibold text-gray-900">
-              {project.name}
+              {project.name_c || project.Name}
             </h3>
           </div>
           <Badge variant="default">
@@ -52,8 +54,8 @@ const ProjectCard = ({ project, tasks = [], teamMembers = [] }) => {
           </Badge>
         </div>
 
-        <p className="text-gray-600 text-sm mb-6 line-clamp-2">
-          {project.description}
+<p className="text-gray-600 text-sm mb-6 line-clamp-2">
+          {project.description_c}
         </p>
 
         <div className="space-y-4">
@@ -77,8 +79,10 @@ const ProjectCard = ({ project, tasks = [], teamMembers = [] }) => {
           <div className="flex items-center justify-between">
             <div className="flex -space-x-2">
               {assignedMembers.map((member) => (
-                <Avatar
+<Avatar
                   key={member.Id}
+                  src={member.avatar_c}
+                  alt={member.name_c || member.Name}
                   src={member.avatar}
                   alt={member.name}
                   size="sm"

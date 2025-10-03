@@ -7,8 +7,8 @@ import Badge from "@/components/atoms/Badge";
 import Avatar from "@/components/atoms/Avatar";
 
 const TaskCard = ({ task, assignee, onClick, isDragging }) => {
-  const isOverdue = task.dueDate && new Date(task.dueDate) < new Date();
-  const isDueSoon = task.dueDate && new Date(task.dueDate) < new Date(Date.now() + 3 * 24 * 60 * 60 * 1000) && !isOverdue;
+  const isOverdue = task.due_date_c && new Date(task.due_date_c) < new Date();
+  const isDueSoon = task.due_date_c && new Date(task.due_date_c) < new Date(Date.now() + 3 * 24 * 60 * 60 * 1000) && !isOverdue;
 
   return (
     <motion.div
@@ -24,31 +24,31 @@ const TaskCard = ({ task, assignee, onClick, isDragging }) => {
         <div className="space-y-3">
           <div className="flex items-start justify-between gap-2">
             <h4 className="text-sm font-medium text-gray-900 flex-1 line-clamp-2">
-              {task.title}
+{task.title_c || task.Name}
             </h4>
-            {task.priority && (
-              <Badge variant={task.priority} className="flex-shrink-0">
-                {task.priority}
+            {task.priority_c && (
+              <Badge variant={task.priority_c} className="flex-shrink-0">
+                {task.priority_c}
               </Badge>
             )}
           </div>
 
-          {task.description && (
+{task.description_c && (
             <p className="text-xs text-gray-600 line-clamp-2">
-              {task.description}
+              {task.description_c}
             </p>
           )}
 
           <div className="flex items-center justify-between pt-2 border-t border-gray-100">
-            {assignee ? (
+{assignee ? (
               <div className="flex items-center gap-2">
                 <Avatar 
-                  src={assignee.avatar} 
-                  alt={assignee.name}
+                  src={assignee.avatar_c} 
+                  alt={assignee.name_c || assignee.Name}
                   size="sm"
                 />
                 <span className="text-xs text-gray-600 font-medium">
-                  {assignee.name.split(" ")[0]}
+                  {(assignee.name_c || assignee.Name).split(" ")[0]}
                 </span>
               </div>
             ) : (
@@ -60,10 +60,10 @@ const TaskCard = ({ task, assignee, onClick, isDragging }) => {
               </div>
             )}
 
-            {task.dueDate && (
+{task.due_date_c && (
               <div className={`flex items-center gap-1 text-xs ${isOverdue ? "text-red-600" : isDueSoon ? "text-amber-600" : "text-gray-600"}`}>
                 <ApperIcon name="Calendar" className="w-3 h-3" />
-                <span>{format(new Date(task.dueDate), "MMM d")}</span>
+                <span>{format(new Date(task.due_date_c), "MMM d")}</span>
               </div>
             )}
           </div>

@@ -31,9 +31,10 @@ const KanbanBoard = ({
     setDragOverColumn(null);
   };
 
-  const handleDrop = (e, columnId) => {
+const handleDrop = (e, columnId) => {
     e.preventDefault();
-    if (draggedTask && draggedTask.columnId !== columnId) {
+    const draggedColumnId = draggedTask.column_id_c?.Id || draggedTask.column_id_c;
+    if (draggedTask && draggedColumnId !== columnId) {
       onTaskMove(draggedTask.Id, columnId);
     }
     setDraggedTask(null);
@@ -53,8 +54,11 @@ const KanbanBoard = ({
     setShowQuickAdd(null);
   };
 
-  const getColumnTasks = (columnId) => {
-    return tasks.filter(task => task.columnId === columnId);
+const getColumnTasks = (columnId) => {
+    return tasks.filter(task => {
+      const taskColumnId = task.column_id_c?.Id || task.column_id_c;
+      return taskColumnId === columnId;
+    });
   };
 
   return (
@@ -79,14 +83,14 @@ const KanbanBoard = ({
               onDragLeave={handleDragLeave}
               onDrop={(e) => handleDrop(e, column.Id)}
             >
-              <div className="flex items-center justify-between mb-4">
+<div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2">
                   <div 
                     className="w-1 h-6 rounded-full"
-                    style={{ backgroundColor: column.color }}
+                    style={{ backgroundColor: column.color_c }}
                   />
                   <h3 className="font-semibold text-gray-900">
-                    {column.title}
+                    {column.title_c || column.Name}
                   </h3>
                   <span className="text-sm text-gray-500 font-medium">
                     {columnTasks.length}
@@ -118,8 +122,9 @@ const KanbanBoard = ({
                   )}
                 </AnimatePresence>
 
-                {columnTasks.map((task) => {
-                  const assignee = teamMembers.find(m => m.Id === task.assigneeId);
+{columnTasks.map((task) => {
+                  const assigneeIdValue = task.assignee_id_c?.Id || task.assignee_id_c;
+                  const assignee = teamMembers.find(m => m.Id === assigneeIdValue);
                   return (
                     <div
                       key={task.Id}

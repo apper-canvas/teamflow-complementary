@@ -49,19 +49,22 @@ const Team = () => {
     );
   }
 
-  const getMemberTasks = (memberId) => {
-    return tasks.filter(task => task.assigneeId === memberId);
+const getMemberTasks = (memberId) => {
+    return tasks.filter(task => {
+      const assigneeIdValue = task.assignee_id_c?.Id || task.assignee_id_c;
+      return assigneeIdValue === memberId;
+    });
   };
 
   const getMemberStats = (memberId) => {
     const memberTasks = getMemberTasks(memberId);
     const completed = memberTasks.filter(task => {
-      const column = task.columnId;
-      return column === 4 || column === 8 || column === 11 || column === 14;
+      const columnId = task.column_id_c?.Id || task.column_id_c;
+      return columnId === 4 || columnId === 8 || columnId === 11 || columnId === 14;
     }).length;
     const inProgress = memberTasks.filter(task => {
-      const column = task.columnId;
-      return column === 2 || column === 6 || column === 10 || column === 13;
+      const columnId = task.column_id_c?.Id || task.column_id_c;
+      return columnId === 2 || columnId === 6 || columnId === 10 || columnId === 13;
     }).length;
     const todo = memberTasks.length - completed - inProgress;
 

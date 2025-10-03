@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import ApperIcon from "@/components/ApperIcon";
 import Button from "@/components/atoms/Button";
-
+import { AuthContext } from "@/App";
 const Header = ({ currentProject, onMobileMenuToggle }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [showProjectMenu, setShowProjectMenu] = useState(false);
-
+  const { logout } = useContext(AuthContext);
   const isProjectPage = location.pathname.startsWith("/project/");
 
   return (
@@ -45,13 +45,22 @@ const Header = ({ currentProject, onMobileMenuToggle }) => {
               </div>
             )}
 
-            <Button
+<Button
               variant="primary"
               size="sm"
               onClick={() => navigate("/dashboard")}
             >
               <ApperIcon name="LayoutDashboard" className="w-4 h-4 sm:mr-2" />
               <span className="hidden sm:inline">Dashboard</span>
+            </Button>
+
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={logout}
+            >
+              <ApperIcon name="LogOut" className="w-4 h-4 sm:mr-2" />
+              <span className="hidden sm:inline">Logout</span>
             </Button>
           </div>
         </div>
