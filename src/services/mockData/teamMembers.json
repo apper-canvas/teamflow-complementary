@@ -1,0 +1,30 @@
+[
+  {
+    "Id": 1,
+    "name": "Sarah Chen",
+    "email": "sarah.chen@teamflow.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah",
+    "role": "Product Manager"
+  },
+  {
+    "Id": 2,
+    "name": "Michael Rodriguez",
+    "email": "michael.rodriguez@teamflow.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Michael",
+    "role": "Senior Developer"
+  },
+  {
+    "Id": 3,
+    "name": "Emily Watson",
+    "email": "emily.watson@teamflow.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Emily",
+    "role": "UX Designer"
+  },
+  {
+    "Id": 4,
+    "name": "David Kim",
+    "email": "david.kim@teamflow.com",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=David",
+    "role": "Marketing Lead"
+  }
+]
